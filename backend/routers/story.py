@@ -13,6 +13,42 @@ from schemas.story import (
 from schemas.job import StoryJobResponse
 from core.story_generator import StoryGenerator
 
+def generate_story_task(job_id: str, theme: str, session_id: str):
+    import sys
+    print(f"[BACKGROUND TASK] Started for job_id: {job_id}", flush=True)
+    sys.stdout.flush()
+    
+    db = SessionLocal()
+
+    try:
+        job = db.query(StoryJob).filter(StoryJob.job_id == job_id).first()
+
+        if not job:
+            print(f"[BACKGROUND TASK] Job not found: {job_id}", flush=True)
+            return
+
+        try:
+            print(f"[BACKGROUND TASK] Setting status to processing", flush=True)
+            job.status = "processing"
+            db.commit()
+
+            print(f"[BACKGROUND TASK] Calling StoryGenerator.generate_story", flush=True)
+            story = StoryGenerator.generate_story(db, session_id, theme)
+
+            job.story_id = story.id
+            job.status = "completed"
+            job.completed_at = datetime.now()
+            db.commit()
+            print(f"[BACKGROUND TASK] Completed! Story ID: {story.id}", flush=True)
+        except Exception as e:
+            print(f"[BACKGROUND TASK] ERROR: {str(e)}", flush=True)
+            job.status = "failed"
+            job.completed_at = datetime.now()
+            job.error = str(e)
+            db.commit()
+    finally:
+        db.close()
+
 router = APIRouter(
     prefix="/stories",
     tags=["stories"]
