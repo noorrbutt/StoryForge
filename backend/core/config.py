@@ -1,16 +1,22 @@
 from typing import List
-from pydantic_settings import BaseSettings
-from pydantic import field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 import os
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+    )
+    
     API_PREFIX: str = "/api"
     DEBUG: bool = False
-
     DATABASE_URL: str = None
-
-    ALLOWED_ORIGINS: str = ""
-
+    
+    # Use Field with validation_alias to read from env, store as string internally
+    allowed_origins_str: str = Field(default="", validation_alias="ALLOWED_ORIGINS")
+    
     OPENAI_API_KEY: str
 
     def __init__(self, **values):
@@ -23,14 +29,12 @@ class Settings(BaseSettings):
             db_name = os.getenv("DB_NAME")
             self.DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
-    @field_validator("ALLOWED_ORIGINS")
-    def parse_allowed_origins(cls, v: str) -> List[str]:
-        return v.split(",") if v else []
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = True
+    @property
+    def ALLOWED_ORIGINS(self) -> List[str]:
+        """Parse comma-separated origins from env"""
+        if self.allowed_origins_str:
+            return [origin.strip() for origin in self.allowed_origins_str.split(",")]
+        return []
 
 
 settings = Settings()
