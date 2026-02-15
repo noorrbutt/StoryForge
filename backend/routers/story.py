@@ -18,6 +18,7 @@ router = APIRouter(
     tags=["stories"]
 )
 
+
 def get_session_id(session_id: Optional[str] = Cookie(None)):
     if not session_id:
         session_id = str(uuid.uuid4())
@@ -25,7 +26,7 @@ def get_session_id(session_id: Optional[str] = Cookie(None)):
 
 
 def generate_story_task(job_id: str, theme: str, session_id: str):
-    """Background task to generate a story"""
+    """Background task to generate a story (Windows compatible - no signal timeout)"""
     import sys
     print(f"[BACKGROUND TASK] Started for job_id: {job_id}", flush=True)
     sys.stdout.flush()
@@ -45,6 +46,8 @@ def generate_story_task(job_id: str, theme: str, session_id: str):
             db.commit()
 
             print(f"[BACKGROUND TASK] Calling StoryGenerator.generate_story", flush=True)
+            
+            # No timeout wrapper - Groq is fast enough (8-12 seconds)
             story = StoryGenerator.generate_story(db, session_id, theme)
 
             job.story_id = story.id
@@ -52,6 +55,7 @@ def generate_story_task(job_id: str, theme: str, session_id: str):
             job.completed_at = datetime.now()
             db.commit()
             print(f"[BACKGROUND TASK] Completed! Story ID: {story.id}", flush=True)
+            
         except Exception as e:
             print(f"[BACKGROUND TASK] ERROR: {str(e)}", flush=True)
             import traceback
