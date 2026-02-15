@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from core.config import settings
-from routers import story, job
-from db.database import create_tables
+from backend.core.config import settings
+from backend.routers import story, job
+from backend.db.database import create_tables
 
 create_tables()
 
