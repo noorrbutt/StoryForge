@@ -1,7 +1,3 @@
-"""
-Enhanced Story Generator using Groq - Creates deeper, more engaging stories
-Now generates 5-7 choice points instead of just 1
-"""
 
 from sqlalchemy.orm import Session
 from models.story import Story, StoryNode
