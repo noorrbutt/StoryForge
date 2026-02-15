@@ -38,10 +38,10 @@ class Settings(BaseSettings):
             # Production: Use PostgreSQL
             self.DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
         else:
-            # Development: Use SQLite
-            self.DATABASE_URL = "sqlite:///./test.db"
+            # Development/Vercel: Use in-memory SQLite
+            self.DATABASE_URL = "sqlite:///:memory:"
             if not self.DEBUG:
-                print("⚠ WARNING: No PostgreSQL config, falling back to SQLite")
+                print("⚠️ WARNING: Using in-memory SQLite, data won't persist")
     
     @property
     def ALLOWED_ORIGINS(self) -> List[str]:
