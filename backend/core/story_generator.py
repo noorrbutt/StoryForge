@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import Session
-from models.story import Story, StoryNode
+from backend.models.story import Story, StoryNode
 from dotenv import load_dotenv
 import os
 import json
