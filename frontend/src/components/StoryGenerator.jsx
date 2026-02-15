@@ -9,18 +9,18 @@ function StoryGenerator() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [status, setStatus] = useState(""); // For showing status updates
+  const [theme, setTheme] = useState(""); // Store the actual theme
 
-  const handleThemeSubmit = async (theme) => {
+  const handleThemeSubmit = async (submittedTheme) => {
     setLoading(true);
     setError(null);
-    setStatus("Creating story...");
+    setTheme(submittedTheme); // Save the theme
 
     try {
       // Step 1: Create the story job
       const createResponse = await axios.post(
         `${API_BASE_URL}/stories/create`,
-        { theme },
+        { theme: submittedTheme },
       );
 
       const jobId = createResponse.data.job_id;
@@ -56,7 +56,6 @@ function StoryGenerator() {
 
           if (job.status === "completed") {
             console.log("Story completed! ID:", job.story_id);
-            setStatus("Story ready!");
             resolve(job.story_id);
           } else if (job.status === "failed") {
             reject(new Error(job.error || "Story generation failed"));
@@ -64,7 +63,6 @@ function StoryGenerator() {
             reject(new Error("Story generation timed out"));
           } else {
             // Still processing, check again in 1 second
-            setStatus(`Generating story... (${attempts}s)`);
             setTimeout(checkStatus, 1000);
           }
         } catch (err) {
@@ -78,7 +76,7 @@ function StoryGenerator() {
   };
 
   if (loading) {
-    return <LoadingStatus theme={status} />;
+    return <LoadingStatus theme={theme} />;
   }
 
   if (error) {

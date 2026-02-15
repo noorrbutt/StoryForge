@@ -8,7 +8,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=True,
-        extra='allow'  # Allow extra fields like GROQ_API_KEY
+        extra='allow' 
     )
     
     API_PREFIX: str = "/api"
@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # Use Field with validation_alias to read from env, store as string internally
     allowed_origins_str: str = Field(default="", validation_alias="ALLOWED_ORIGINS")
     
-    # Make OpenAI optional since we're using Groq now
+    # Make OpenAI optional since we're using Groq
     OPENAI_API_KEY: Optional[str] = None
     
     # Add Groq support
