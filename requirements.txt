@@ -1,9 +1,15 @@
-# Requirements
+# Core FastAPI
 fastapi>=0.104.0
-mangum>=0.17.0
 uvicorn>=0.24.0
-python-dotenv>=1.0.0
 pydantic>=2.5.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+
+# Groq AI
 groq>=0.4.0
-requests>=2.31.0
+
+# Database
 sqlalchemy>=2.0.0
+
+# For JSON parsing
+typing-extensions>=4.5.0
