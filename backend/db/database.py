@@ -4,9 +4,14 @@ from sqlalchemy.orm import sessionmaker
 
 from backend.core.config import settings
 
+# For PostgreSQL, don't use check_same_thread
+connect_args = {}
+if "sqlite" in settings.DATABASE_URL:
+    connect_args = {"check_same_thread": False}
+
 engine = create_engine(
     settings.DATABASE_URL,
-    connect_args={"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
+    connect_args=connect_args
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -16,9 +21,6 @@ def create_tables():
     Base.metadata.create_all(bind=engine)
 
 def get_db():
-    # ALWAYS create tables for in-memory SQLite (harmless if they exist)
-    Base.metadata.create_all(bind=engine)
-    
     db = SessionLocal()
     try:
         yield db

@@ -10,6 +10,7 @@ groq>=0.4.0
 
 # Database
 sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
 
 # For JSON parsing
 typing-extensions>=4.5.0

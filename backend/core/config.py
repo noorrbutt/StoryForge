@@ -12,22 +12,24 @@ class Settings(BaseSettings):
     )
     
     API_PREFIX: str = "/api"
-    DEBUG: bool = True  # Set to True by default for local dev
+    DEBUG: bool = True
     DATABASE_URL: Optional[str] = None
     
-    # Use Field with validation_alias to read from env, store as string internally
     allowed_origins_str: str = Field(default="", validation_alias="ALLOWED_ORIGINS")
-    
-    # Make OpenAI optional since we're using Groq
     OPENAI_API_KEY: Optional[str] = None
-    
-    # Add Groq support
     GROQ_API_KEY: Optional[str] = None
     
     def __init__(self, **values):
         super().__init__(**values)
         
-        # Build database URL
+        # Priority 1: Check for Vercel Postgres
+        vercel_postgres = os.getenv("POSTGRES_URL")
+        if vercel_postgres:
+            self.DATABASE_URL = vercel_postgres
+            print("✅ Using Vercel Postgres")
+            return
+        
+        # Priority 2: Check for custom PostgreSQL config
         db_user = os.getenv("DB_USER")
         db_password = os.getenv("DB_PASSWORD")
         db_host = os.getenv("DB_HOST")
@@ -35,27 +37,27 @@ class Settings(BaseSettings):
         db_name = os.getenv("DB_NAME")
         
         if all([db_user, db_password, db_host, db_port, db_name]):
-            # Production: Use PostgreSQL
             self.DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-        else:
-            # Development/Vercel: Use in-memory SQLite
-            self.DATABASE_URL = "sqlite:///:memory:"
-            if not self.DEBUG:
-                print("⚠️ WARNING: Using in-memory SQLite, data won't persist")
+            print("✅ Using custom PostgreSQL")
+            return
+        
+        # Fallback: In-memory SQLite (for local dev)
+        self.DATABASE_URL = "sqlite:///:memory:"
+        print("⚠️ WARNING: Using in-memory SQLite")
     
     @property
     def ALLOWED_ORIGINS(self) -> List[str]:
         """Parse comma-separated origins from env"""
         if self.allowed_origins_str:
             return [origin.strip() for origin in self.allowed_origins_str.split(",")]
-        # Default to common localhost origins in development
         if self.DEBUG:
             return [
                 "http://localhost:3000",
                 "http://localhost:5173",
                 "http://127.0.0.1:3000",
                 "http://127.0.0.1:5173",
-                "http://localhost:5174", 
+                "http://localhost:5174",
+                "https://*.vercel.app",
             ]
         return []
 
