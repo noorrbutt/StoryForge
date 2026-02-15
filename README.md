@@ -5,7 +5,6 @@ A full-stack choose-your-own-adventure story generator powered by **FREE AI** (G
 > **Note:** This project was inspired by [Tech With Tim's Choose-Your-Own-Adventure-AI](https://github.com/techwithtim/Choose-Your-Own-Adventure-AI). This version uses Groq (free) instead of OpenAI and includes enhanced features like balanced difficulty and improved story generation.
 
 ![Story Generator Demo](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-blue)
 ![Python](https://img.shields.io/badge/Python-3.13+-blue)
 ![React](https://img.shields.io/badge/React-18+-61dafb)
 
