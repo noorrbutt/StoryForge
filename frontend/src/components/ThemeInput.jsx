@@ -26,7 +26,7 @@ function ThemeInput({ onSubmit }) {
             type="text"
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
-            placeholder="Enter a theme (e.g. prirates, space, medieval...)"
+            placeholder="Enter a theme (e.g. pirates, space, medieval...)"
             className={error ? "error" : ""}
           />
           {error && <p className="error-text">{error}</p>}
