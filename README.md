@@ -13,8 +13,6 @@ A full-stack choose-your-own-adventure story generator powered by **FREE AI** (G
 
 **Try it now:** [https://pathedplay.vercel.app](https://pathedplay.vercel.app)
 
-No installation required! Start generating stories instantly.
-
 ---
 
 ## ✨ Features
