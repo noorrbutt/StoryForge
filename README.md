@@ -18,7 +18,7 @@ A full-stack choose-your-own-adventure story generator powered by **FREE AI** (G
 ## ✨ Features
 
 - 🤖 **FREE AI-powered story generation** using Groq (Llama 3.1)
-- 🎯 **Balanced gameplay** - 1 winning path, 3 losing paths per story
+- 🎯 **Balanced gameplay** - 1 winning path, 2 or 3 losing paths per story
 - 🌳 **Multi-level decision trees** - 2 choice points with 4 possible endings
 - 🎨 **Custom themes** - Generate stories for any genre (fantasy, sci-fi, horror, etc.)
 - ⚡ **Lightning fast** - Stories ready in 8-12 seconds
@@ -281,20 +281,6 @@ API_PREFIX=/api
 
 ---
 
-## 🎨 Customization
-
-
-### Changing Difficulty
-
-Edit the prompt in `story_generator.py` to adjust win/loss ratio:
-
-```python
-# Current: 1 win, 3 losses (25% success)
-# Easy mode: 2 wins, 2 losses (50% success)
-# Hard mode: 1 win, 7 losses (12.5% success)
-```
-
----
 
 ## 🐛 Troubleshooting
 
