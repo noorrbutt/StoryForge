@@ -19,7 +19,7 @@ class StoryGenerator:
         
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
-            raise Exception("Missing GROQ_API_KEY in .env file. Get one free at https://console.groq.com")
+            raise Exception("Missing GROQ_API_KEY in .env file. Get one at https://console.groq.com")
         
         return Groq(api_key=api_key)
 
