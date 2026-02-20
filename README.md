@@ -350,7 +350,7 @@ API_PREFIX=/api
 
 ---
 
-## 💡 Future Enhancements
+## 💡 Future Enhancements I am looking forward to work upon
 
 - [ ] User accounts and authentication (Clerk/Auth0)
 - [ ] Story sharing with unique URLs
@@ -383,18 +383,9 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - **[Groq](https://groq.com)** - For providing FREE, lightning-fast LLM API
 - **[Vercel](https://vercel.com)** - Amazing deployment platform with generous free tier
 - **[Neon](https://neon.tech)** - Serverless PostgreSQL made easy
-- **[FastAPI](https://fastapi.tiangolo.com)** - Best Python web framework
+- **[FastAPI](https://fastapi.tiangolo.com)** -  Python web framework
 - **[React](https://react.dev)** - Powerful UI library
 
 ---
 
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Troubleshooting](#-troubleshooting) section
-2. Check Groq API status at [console.groq.com](https://console.groq.com)
-
----
-
-**Built with ❤️** | [Live Demo](https://pathedplay.vercel.app) 
+**Built with ❤️ by Noor Butt** | [Live Demo](https://pathedplay.vercel.app) 
