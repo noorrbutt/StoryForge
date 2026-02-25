@@ -166,16 +166,16 @@ Visit `http://localhost:5173` to use the application!
 
 ```
 Root Node
-├─ Choice A (Wrong Path) ❌
+├─ Choice A (Wrong Path but can still choose right one) ❌
 │  ├─ Sub-choice 1 → Failure Ending ❌
-│  └─ Sub-choice 2 → Failure Ending ❌
+│  └─ Sub-choice 2 → Success Ending ✓
 │
 └─ Choice B (Right Path) ✓
    ├─ Smart Move → Success Ending ✓
    └─ Mistake → Failure Ending ❌
 ```
 
-**Result:** 1 winning path out of 4 possible endings (25% success rate)
+**Result:** 2 winning paths out of 4 possible endings (50% success rate)
 
 ---
 
